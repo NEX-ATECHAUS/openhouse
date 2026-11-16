@@ -1,0 +1,717 @@
+/* Design system per docs/branding.md. Deep teal #0a4246, bright teal
+   #54b6b9, pale mint #e8f5f6 and amber #f4b860; Albert Sans for
+   headings, Inter for text, Fira Mono for the small uppercase labels.
+   Two themes from one token set: light floats white cards on the pale
+   mint, dark floats deep teal cards on a near-black teal. The theme
+   follows the device; there is no switch to keep in step.
+
+   Two accents, used with intent: teal for structure, state and
+   selection; amber for the one action a screen is for.
+   Reuse these classes; do not invent new styles per screen. */
+
+:root {
+  color-scheme: light;
+
+  /* Brand */
+  --teal-deep: #0a4246;
+  --teal: #54b6b9;
+  --amber: #f4b860;
+
+  /* Surfaces */
+  --canvas: #e8f5f6;
+  --surface: #ffffff;
+  --surface-soft: #f1f8f8;
+  --border: #cde2e3;
+  /* A control's edge: 3:1 or better on the card and the soft fill. */
+  --border-input: #5c898c;
+
+  /* Ink */
+  --text: #0a4246;
+  --muted: #3f6669; /* 6.3 on white, 5.6 on the canvas */
+  --placeholder: #55797c;
+
+  /* The header bar: deep teal in both themes. */
+  --header: #0a4246;
+  --on-header: #ffffff;
+  --on-header-muted: #b9dcde;
+
+  /* Actions. Primary is the everyday button; accent is the one action
+     the screen is for. */
+  --primary: #0a4246;
+  --on-primary: #ffffff;
+  --primary-hover: #083438;
+  --accent: #f4b860;
+  --on-accent: #0a2a2c;
+  --accent-hover: #efa93f;
+
+  /* Soft fills with their inks. Each ink reads 4.5:1 on its fill. */
+  --teal-soft: #d6eeef;
+  --teal-ink: #0a4246;
+  --amber-soft: #fcefd6;
+  --amber-ink: #7a3a00;
+  --green-soft: #dcefe5;
+  --green-ink: #1c5e41;
+  --red-soft: #f8e1e1;
+  --red-ink: #9a2a2a;
+
+  /* Keyboard focus: an ink line with a pale halo, so one rule shows on
+     every surface in both themes. */
+  --focus-ring: #0a4246;
+  --focus-halo: #ffffff;
+
+  --radius-lg: 16px;
+  --radius-md: 8px;
+  --radius-sm: 6px;
+  --radius-pill: 999px;
+  --radius-round: 50%;
+
+  --shadow-card: 0 1px 3px rgba(10, 66, 70, 0.08), 0 1px 2px rgba(10, 66, 70, 0.06);
+
+  /* Type */
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-heading: "Albert Sans Variable", var(--font-sans);
+  --font-mono: "Fira Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 15px;
+  --text-lg: 18px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+
+  /* The one spacing rhythm: blocks on a page stand this far apart. */
+  --rhythm: 20px;
+  /* The smallest a control may be on a touch screen. */
+  --touch: 44px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --canvas: #061c1e;
+    --surface: #0d2f32;
+    --surface-soft: #123a3d;
+    --border: #1f4d50;
+    --border-input: #6fa3a6;
+    --text: #e8f5f6;
+    --muted: #a5c9cb;
+    --placeholder: #93babc;
+    --header: #083438;
+    --primary: #54b6b9;
+    --on-primary: #062325;
+    --primary-hover: #6cc4c7;
+    --teal-soft: #174649;
+    --teal-ink: #bfe6e8;
+    --amber-soft: #3d3113;
+    --amber-ink: #f6c57c;
+    --green-soft: #173d2c;
+    --green-ink: #9bdcb9;
+    --red-soft: #4a2020;
+    --red-ink: #ffb0b0;
+    --focus-ring: #e8f5f6;
+    --focus-halo: #061c1e;
+    --shadow-card: none;
+  }
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+fieldset {
+  border: 0;
+  min-width: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  font-size: var(--text-2xl);
+  letter-spacing: -0.32px;
+}
+
+h2 {
+  font-size: var(--text-xl);
+  letter-spacing: -0.24px;
+}
+
+h3 {
+  font-size: var(--text-lg);
+  letter-spacing: -0.18px;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--focus-halo);
+}
+
+/* The small uppercase label above a heading or a group. */
+.tagline {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: var(--text-sm);
+}
+
+/* ---------- Shell ---------- */
+
+.header {
+  background: var(--header);
+  color: var(--on-header);
+}
+
+.header-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  letter-spacing: -0.18px;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  flex: none;
+}
+
+.header .tagline {
+  color: var(--on-header-muted);
+}
+
+/* The page. Blocks directly on it are spaced by this rule and carry no
+   top or bottom margin of their own. */
+.content {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 20px 64px;
+}
+
+.content > * + * {
+  margin-top: var(--rhythm);
+}
+
+/* The page's opening lines, straight on the canvas. */
+.intro > * + * {
+  margin-top: 8px;
+}
+
+.intro p {
+  max-width: 62ch;
+}
+
+/* Two columns on a desk (the homes, then the day); one on a phone. */
+.columns {
+  display: grid;
+  gap: var(--rhythm);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.column > * + * {
+  margin-top: var(--rhythm);
+}
+
+/* ---------- Card ---------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 20px;
+  min-width: 0;
+}
+
+/* Inside a card, each part stands 14px off the one above. */
+.card > * + * {
+  margin-top: 14px;
+}
+
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.card-head > div {
+  min-width: 0;
+}
+
+/* ---------- Forms ---------- */
+
+.fields {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* A field that takes the whole row of its grid. */
+.field.wide {
+  grid-column: 1 / -1;
+}
+
+.field-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.field-hint {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.input {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+}
+
+.input::placeholder {
+  color: var(--placeholder);
+  opacity: 1;
+}
+
+/* A tick box with its words. The whole label is the target. */
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.check input {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  margin: 0;
+  accent-color: var(--primary);
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 600;
+  font-size: var(--text-md);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--primary-hover);
+}
+
+.button.accent {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.button.accent:hover {
+  background: var(--accent-hover);
+}
+
+.button.ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border-input);
+}
+
+.button.ghost:hover {
+  background: var(--surface-soft);
+}
+
+.button.small {
+  min-height: 32px;
+  padding: 4px 12px;
+  font-size: var(--text-sm);
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* A must-see toggle: a ghost button that fills amber when on. */
+.button.toggle[aria-pressed="true"] {
+  background: var(--amber-soft);
+  color: var(--amber-ink);
+  border-color: var(--amber-ink);
+}
+
+/* ---------- Pills ---------- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--teal-soft);
+  color: var(--teal-ink);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.pill.amber {
+  background: var(--amber-soft);
+  color: var(--amber-ink);
+}
+
+.pill.green {
+  background: var(--green-soft);
+  color: var(--green-ink);
+}
+
+.pill.red {
+  background: var(--red-soft);
+  color: var(--red-ink);
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ---------- Notices ---------- */
+
+/* A full border and a tinted fill; never a bar down one side. */
+.notice {
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--teal-soft);
+  color: var(--teal-ink);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+
+.notice.amber {
+  background: var(--amber-soft);
+  color: var(--amber-ink);
+  border-color: var(--amber-ink);
+}
+
+.notice.red {
+  background: var(--red-soft);
+  color: var(--red-ink);
+  border-color: var(--red-ink);
+}
+
+.empty {
+  padding: 24px 16px;
+  border: 1px dashed var(--border-input);
+  border-radius: var(--radius-md);
+  text-align: center;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+/* ---------- Disclosure ---------- */
+
+.disclosure > summary {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.disclosure[open] > summary {
+  margin-bottom: 14px;
+}
+
+.disclosure > * + * {
+  margin-top: 14px;
+}
+
+/* ---------- A home in the list ---------- */
+
+.homes > * + * {
+  margin-top: 10px;
+}
+
+.home {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  padding: 14px;
+  min-width: 0;
+}
+
+.home > * + * {
+  margin-top: 10px;
+}
+
+/* A home left out of the day is dimmed, not hidden. */
+.home.out .home-main {
+  opacity: 0.6;
+}
+
+.home-main > * + * {
+  margin-top: 6px;
+}
+
+.home-address {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.home-address a {
+  text-underline-offset: 3px;
+}
+
+.home-facts {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.home-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+/* ---------- Pager ---------- */
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pager-count {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---------- The day ---------- */
+
+.totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.total {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  padding: 10px 12px;
+  min-width: 0;
+}
+
+.total-figure {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.day > * + * {
+  margin-top: 8px;
+}
+
+/* A stop: its number, then what and when. */
+.stop {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  padding: 14px;
+}
+
+.stop-number {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-round);
+  background: var(--primary);
+  color: var(--on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
+.stop-body > * + * {
+  margin-top: 6px;
+}
+
+.stop-time {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  line-height: 1.2;
+}
+
+/* What happens between two stops: the drive, a wait, the break. */
+.between {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-left: 44px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+/* ---------- The harness gallery ---------- */
+
+.visual-block > * + * {
+  margin-top: 10px;
+}
+
+.visual-stage {
+  min-width: 0;
+}
+
+/* ---------- Touch ---------- */
+
+/* Every control meets the 44px floor where thumbs are; a mouse keeps
+   the compact sizes. */
+@media (pointer: coarse) {
+  .button,
+  .button.small,
+  .input,
+  .check,
+  .disclosure > summary {
+    min-height: var(--touch);
+  }
+
+  .button.small {
+    padding: 8px 14px;
+  }
+
+  /* 16px stops iOS zooming the page when a field takes focus. */
+  .input {
+    font-size: 16px;
+  }
+}

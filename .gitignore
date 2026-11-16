@@ -1,0 +1,9 @@
+node_modules/
+.next/
+visual-report/
+.env
+.env.local
+.env.*.local
+next-env.d.ts
+*.tsbuildinfo
+.vercel

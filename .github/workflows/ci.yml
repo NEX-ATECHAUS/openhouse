@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    env:
+      # Demo mode: sample listings, no outside calls. Real keys live in
+      # Vercel and are never needed in CI.
+      NEXT_PUBLIC_DEMO_MODE: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Audit
+        run: npm run audit:ci
+      - name: Lint
+        run: npm run lint
+      - name: Type check
+        run: npm run typecheck
+      - name: Test
+        run: npm test
+      - name: Build
+        run: npm run build
+
+  # The visual harness: the real components at eight widths in both
+  # themes, judged for overflow, overlap, clipping and tap targets. The
+  # pictures are kept when it fails so the fault can be read, not guessed.
+  visual:
+    # Pinned to the image the pinned Playwright can install a browser
+    # on. Move the two together.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Browser
+        run: npx playwright install --with-deps chromium
+      - name: Visual
+        run: npm run visual
+      - name: Pictures
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-report
+          path: visual-report/
+          retention-days: 7
