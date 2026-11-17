@@ -2,6 +2,16 @@
 
 Dated sections, newest first, in plain words, with who asked.
 
+## 17 November 2026: The first design's type, back
+
+Asked for by the owner: the fonts of the first design, with everything
+else as the new look.
+
+- Headings, prices, stop times and the day's totals in Albert Sans
+  again, at its lighter weight; the small labels ("STEP 2", "DRIVING")
+  in Fira Mono capitals again; Inter stays for the text.
+- The two font packages removed with the new look are back.
+
 ## 17 November 2026: Fields match
 
 Asked for by the owner, from a screenshot in Safari: the dropdowns did

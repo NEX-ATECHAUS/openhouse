@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import Link from "next/link";
 import "@fontsource-variable/inter";
+import "@fontsource-variable/albert-sans";
+import "@fontsource/fira-mono/400.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

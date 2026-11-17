@@ -2,7 +2,8 @@
    white cards, pill-shaped controls and chips, and one warm accent: a
    peach to coral gradient for the action a screen is for. Homes are
    pictured by the illustrated street in src/components/house-art.tsx.
-   Inter throughout. Two themes from one token set; the theme follows
+   Albert Sans for headings and figures, Inter for text, Fira Mono for
+   the small uppercase labels. Two themes from one token set; the theme follows
    the device.
 
    Reuse these classes; do not invent new styles per screen. */
@@ -70,6 +71,8 @@
 
   /* Type */
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-heading: "Albert Sans Variable", var(--font-sans);
+  --font-mono: "Fira Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --text-xs: 12px;
   --text-sm: 13px;
   --text-md: 15px;
@@ -166,9 +169,10 @@ fieldset {
 h1,
 h2,
 h3 {
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-weight: 400;
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   overflow-wrap: anywhere;
 }
 
@@ -219,8 +223,11 @@ select {
 
 /* The small label above a heading or a figure. */
 .tagline {
-  font-size: var(--text-sm);
-  font-weight: 500;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--muted);
 }
 
@@ -247,9 +254,10 @@ select {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  font-family: var(--font-heading);
   font-size: var(--text-lg);
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   text-decoration: none;
 }
 
@@ -859,8 +867,9 @@ select.input {
 }
 
 .home-price {
+  font-family: var(--font-heading);
   font-size: var(--text-lg);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.01em;
   overflow-wrap: anywhere;
 }
@@ -924,9 +933,10 @@ select.input {
 }
 
 .total-figure {
+  font-family: var(--font-heading);
   font-size: clamp(16px, 4.4vw, 24px);
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   line-height: 1.25;
   white-space: nowrap;
 }
@@ -978,8 +988,9 @@ select.input {
 }
 
 .stop-time {
+  font-family: var(--font-heading);
   font-size: var(--text-lg);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: -0.01em;
   line-height: 1.3;
 }

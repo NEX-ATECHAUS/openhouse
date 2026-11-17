@@ -39,11 +39,17 @@ they take the same frame.
 
 ## Type
 
-- Inter throughout, bundled with the build so nothing is fetched from
-  another site.
-- Headings weight 600, tracking minus two percent. The page heading
-  scales from 28px on a phone to 40px on a desk.
-- Text 15px, 1.5 line height; 13px for dense secondary text.
+The type of the first design, kept by the owner's choice on
+17 November 2026; everything else follows the new look.
+
+- Headings, prices, times and figures: Albert Sans, weight 400 (500
+  for the brand and prices), tracking minus one percent. The page
+  heading scales from 28px on a phone to 40px on a desk.
+- Text: Inter, 15px, 1.5 line height; 13px for dense secondary text.
+- Small labels above headings and figures (`.tagline`): Fira Mono,
+  12px, uppercase.
+- The fonts are bundled with the build (`@fontsource`), so nothing is
+  fetched from another site.
 
 ## Shape and spacing
 
