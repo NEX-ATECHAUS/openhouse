@@ -73,7 +73,10 @@ an input, an upload, or a secret.
 - Leaving the app: `src/lib/export.ts` builds the Google Maps link and
   the calendar file. Nothing is sent anywhere.
 - Storage: none on a server. The search, the settings and homes added by
-  hand are kept in the browser (`localStorage`, key `openhouse-v1`).
+  hand are kept in the browser (`localStorage`, key `openhouse-v1`);
+  notes on homes under their own key (`openhouse-notes-v1`,
+  `src/lib/notes.ts`), so a note outlives a search; the theme choice
+  under `openhouse-theme`.
   There is no database and there are no accounts. If either is added,
   bring the blueprint's seams with it (`db.ts`, `authz.ts`, the Supabase
   clients) rather than inventing new ones.
@@ -173,8 +176,11 @@ neat at every width in both themes, and the harness agrees.
   screens, is a defect even when each looks right on its own.
 - **Tokens, not values.** Colours, radii and shadows come from the
   variables at the top of `globals.css`. A colour that only works in
-  one theme is wrong in both. The theme follows the device
-  (`prefers-color-scheme`); there is no switch.
+  one theme is wrong in both. The theme follows the device until the
+  switch in the header is used; the choice is `data-theme` on the page,
+  kept in the browser (`openhouse-theme`, `src/lib/theme.ts`). Dark
+  tokens live twice in `globals.css` (the attribute and the media
+  query) and change together.
 - **No single-edge accents.** A box, card, callout or note never
   carries a coloured bar down one side or along its top as its only
   decoration (`border-left: 4px solid`, `border-top: 6px solid`, an

@@ -1,5 +1,6 @@
 "use client";
 
+import { HomeNote } from "@/components/home-note";
 import { HouseArt, artVariantFor } from "@/components/house-art";
 import { IconBath, IconBed, IconCar, IconClock, IconHeart, IconHouse } from "@/components/icons";
 import type { Listing } from "@/lib/types";
@@ -60,6 +61,9 @@ export function HomeCard({
   onInclude,
   onMustSee,
   onRemove,
+  note,
+  noteSaved,
+  onNote,
 }: {
   listing: Listing;
   included: boolean;
@@ -70,6 +74,9 @@ export function HomeCard({
   onInclude: (next: boolean) => void;
   onMustSee: (next: boolean) => void;
   onRemove?: () => void;
+  note: string;
+  noteSaved: boolean;
+  onNote: (next: string) => void;
 }) {
   const inDay = included && !outOfRange;
   return (
@@ -121,6 +128,9 @@ export function HomeCard({
             </button>
           )}
         </div>
+      </div>
+      <div className="home-note">
+        <HomeNote text={note} saved={noteSaved} onChange={onNote} />
       </div>
     </li>
   );

@@ -25,12 +25,14 @@ const stop: PlannedStop = {
 };
 
 test("the calendar file has one event at the walk-in time, with text escaped", () => {
-  const ics = planToIcs("2026-11-21", [stop], new Map([["a", listing]]), new Date("2026-11-16T00:00:00Z"));
+  const ics = planToIcs("2026-11-21", [stop], new Map([["a", listing]]), { a: { text: "Big yard;\nnoisy road", at: 1 } }, new Date("2026-11-16T00:00:00Z"));
   assert.match(ics, /DTSTART:20261121T110000\r\n/);
   assert.match(ics, /DTEND:20261121T111500\r\n/);
   assert.equal(ics.match(/^BEGIN:VEVENT\r$/gm)?.length, 1);
   assert.match(ics, /LOCATION:1 Example St\\, Croydon\\nBEGIN:VEVENT\r\n/);
-  assert.match(ics, /\$580\\,000\; negotiable/);
+  assert.match(ics, /\$580\\,000\\; negotiable/);
+  // The note goes in, escaped, so its line break cannot start a line of its own.
+  assert.match(ics, /Note: Big yard\\;\\nnoisy road\r\n/);
 });
 
 test("maps links chain when the day is longer than one link holds", () => {

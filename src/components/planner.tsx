@@ -7,6 +7,7 @@ import { DaySettings } from "@/components/day-settings";
 import { HomeCard } from "@/components/home-card";
 import { PAGE_SIZE, Pager } from "@/components/pager";
 import { SearchForm, type SearchValues } from "@/components/search-form";
+import { NOTES_KEY, readNotes, withNote, type Notes } from "@/lib/notes";
 import { formatDay, isDay } from "@/lib/time";
 import { straightLineKm } from "@/lib/travel-estimate";
 import type { Listing, Plan, PlanSettings, TravelSource } from "@/lib/types";
@@ -72,6 +73,10 @@ export function Planner({ defaultDate, today, demo }: { defaultDate: string; tod
   const [planning, setPlanning] = useState(false);
   const [planProblem, setPlanProblem] = useState<string | null>(null);
 
+  // Notes on homes, kept apart from the search so a note outlives it.
+  const [notes, setNotes] = useState<Notes>({});
+  const [notesSaved, setNotesSaved] = useState(true);
+
   // Bring back the last visit, once, after the first paint.
   useEffect(() => {
     const stored = readStore();
@@ -88,7 +93,25 @@ export function Planner({ defaultDate, today, demo }: { defaultDate: string; tod
       setManual(stored.manual);
       setMustSee(new Set(stored.manual.map((home) => home.id)));
     }
+    try {
+      setNotes(readNotes(window.localStorage.getItem(NOTES_KEY)));
+    } catch {
+      setNotesSaved(false);
+    }
   }, [defaultDate, today]);
+
+  // Saved on every keystroke, so a note is never lost to a closed tab.
+  // A note does not change the plan, so the plan on screen stays.
+  function saveNote(id: string, text: string) {
+    const next = withNote(notes, id, text);
+    setNotes(next);
+    try {
+      window.localStorage.setItem(NOTES_KEY, JSON.stringify(next));
+      setNotesSaved(true);
+    } catch {
+      setNotesSaved(false);
+    }
+  }
 
   useEffect(() => {
     if (!loaded) return;
@@ -277,6 +300,9 @@ export function Planner({ defaultDate, today, demo }: { defaultDate: string; tod
                             }
                           : undefined
                       }
+                      note={notes[home.id]?.text ?? ""}
+                      noteSaved={notesSaved}
+                      onNote={(text) => saveNote(home.id, text)}
                     />
                   ))}
                 </ul>
@@ -332,6 +358,9 @@ export function Planner({ defaultDate, today, demo }: { defaultDate: string; tod
                 listings={byId}
                 travelSource={plan.travelSource}
                 breakAsked={settings.breakMinutes > 0}
+                notes={notes}
+                notesSaved={notesSaved}
+                onNote={saveNote}
               />
             )}
           </section>

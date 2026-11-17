@@ -1,3 +1,4 @@
+import type { Notes } from "./notes.ts";
 import type { Listing, PlannedStop } from "./types.ts";
 
 // What leaves the app for the day itself: a calendar file and a Google
@@ -16,13 +17,19 @@ function icsText(value: string): string {
     .replace(/\\/g, "\\\\")
     .replace(/\r?\n/g, "\\n")
     .replace(/,/g, "\\,")
-    .replace(/;/g, "\;");
+    .replace(/;/g, "\\;");
 }
 
 // One event per home, at the time you walk in. The times carry no
 // timezone on purpose: they are the times on the day, wherever the phone
 // thinks it is.
-export function planToIcs(day: string, stops: PlannedStop[], listings: Map<string, Listing>, now: Date = new Date()): string {
+export function planToIcs(
+  day: string,
+  stops: PlannedStop[],
+  listings: Map<string, Listing>,
+  notes: Notes = {},
+  now: Date = new Date()
+): string {
   const made = now.toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
   const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Open House//Planner//EN", "CALSCALE:GREGORIAN"];
   stops.forEach((stop, index) => {
@@ -32,6 +39,7 @@ export function planToIcs(day: string, stops: PlannedStop[], listings: Map<strin
       listing.priceText === "" ? "Price not stated" : listing.priceText,
       listing.bedrooms === null ? "" : `${listing.bedrooms} bed`,
       listing.url ?? "",
+      notes[stop.id] === undefined ? "" : `Note: ${notes[stop.id]?.text ?? ""}`,
     ].filter((part) => part !== "");
     lines.push(
       "BEGIN:VEVENT",

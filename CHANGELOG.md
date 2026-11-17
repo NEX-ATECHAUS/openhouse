@@ -2,6 +2,26 @@
 
 Dated sections, newest first, in plain words, with who asked.
 
+## 17 November 2026: Dark mode switch and notes on homes
+
+Asked for by the owner.
+
+- **Dark mode switch.** A Light mode / Dark mode button in the header.
+  Until it is used the page follows the device; the choice is kept in
+  this browser and applied before the page paints, so it never flashes
+  the wrong theme. Dark mode now has a dark page with a faint warm
+  glow; light mode keeps the logo gradient.
+- **Notes on each home.** "Add a note" on every home: one tap opens it,
+  it saves as you type, Done closes it. The same note shows, and can be
+  changed, on the home's stop in the day, so a note typed standing in
+  the house is there in both places. Notes outlive a search (kept per
+  home in this browser, up to 300) and go into the calendar file. If
+  the browser will not keep them, the note says so.
+- **Fixed: semicolons in the calendar file.** Since the first build, a
+  semicolon in an address, price or note was written unescaped, which a
+  calendar app can misread. The test had the same slip, so it passed
+  anyway; both are corrected.
+
 ## 17 November 2026: The page in the logo's colour
 
 Asked for by the owner: the page background the same as the logo

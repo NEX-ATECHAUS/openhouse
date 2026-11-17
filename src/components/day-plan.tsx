@@ -1,9 +1,11 @@
 "use client";
 
 import { HomeSpecs, priceLabel } from "@/components/home-card";
+import { HomeNote } from "@/components/home-note";
 import { IconCalendar, IconCar, IconClock, IconCoffee, IconRoute } from "@/components/icons";
 import { mapsLinks, planToIcs } from "@/lib/export";
 import { formatClock, formatDay, formatDuration, formatDurationShort } from "@/lib/time";
+import type { Notes } from "@/lib/notes";
 import type { Listing, Plan, TravelSource } from "@/lib/types";
 
 // The day, in the order it happens: each stop with when to walk in and
@@ -14,8 +16,8 @@ const SKIP_WORDS = {
   "too-short": "It is open for less time than a visit takes.",
 } as const;
 
-function downloadCalendar(day: string, plan: Plan, listings: Map<string, Listing>) {
-  const file = new Blob([planToIcs(day, plan.stops, listings)], { type: "text/calendar" });
+function downloadCalendar(day: string, plan: Plan, listings: Map<string, Listing>, notes: Notes) {
+  const file = new Blob([planToIcs(day, plan.stops, listings, notes)], { type: "text/calendar" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(file);
   link.download = `open-homes-${day}.ics`;
@@ -29,12 +31,18 @@ export function DayPlan({
   listings,
   travelSource,
   breakAsked,
+  notes,
+  notesSaved,
+  onNote,
 }: {
   day: string;
   plan: Plan;
   listings: Map<string, Listing>;
   travelSource: TravelSource;
   breakAsked: boolean;
+  notes: Notes;
+  notesSaved: boolean;
+  onNote: (id: string, next: string) => void;
 }) {
   const first = plan.stops[0];
   const last = plan.stops[plan.stops.length - 1];
@@ -117,6 +125,7 @@ export function DayPlan({
                   <p className="small muted">
                     Open {formatClock(stop.open)} to {formatClock(stop.close)}
                   </p>
+                  <HomeNote text={notes[stop.id]?.text ?? ""} saved={notesSaved} onChange={(next) => onNote(stop.id, next)} />
                 </div>
               </div>
             </li>
@@ -130,7 +139,7 @@ export function DayPlan({
             {links.length === 1 ? "Open the route in Google Maps" : `Google Maps, part ${index + 1}`}
           </a>
         ))}
-        <button type="button" className="button ghost" onClick={() => downloadCalendar(day, plan, listings)}>
+        <button type="button" className="button ghost" onClick={() => downloadCalendar(day, plan, listings, notes)}>
           <IconCalendar />
           Add to my calendar
         </button>

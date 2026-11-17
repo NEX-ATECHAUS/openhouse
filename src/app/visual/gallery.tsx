@@ -4,7 +4,9 @@ import { AddHome } from "@/components/add-home";
 import { DayPlan } from "@/components/day-plan";
 import { DaySettings } from "@/components/day-settings";
 import { HomeCard } from "@/components/home-card";
+import { HomeNote } from "@/components/home-note";
 import { HouseArt } from "@/components/house-art";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Pager } from "@/components/pager";
 import { DEFAULT_SETTINGS, Planner } from "@/components/planner";
 import { SearchForm } from "@/components/search-form";
@@ -65,6 +67,11 @@ const EMPTY = home({
 
 const SECOND = home({ id: "v-2", address: "2/7 Ironbark Rise, Croydon", inspections: [{ date: "2026-11-21", open: 690, close: 720 }] });
 
+const LONG_NOTE =
+  "Good light in the living room, north facing balcony. Noisy from the main road with the windows open.\nStrata about $900 a quarter, ask about the special levy. Storage cage in the basement. Agent says offers before the auction are welcome.";
+
+const NOTES = { "v-1": { text: "Kitchen redone. Ask about the body corporate.", at: 1 }, "v-long": { text: LONG_NOTE, at: 1 } };
+
 const PLAN: Plan = {
   stops: [
     { id: "v-1", travelMinutes: 0, arrive: 600, start: 600, leave: 615, open: 600, close: 630, breakBefore: null },
@@ -108,24 +115,31 @@ export function Gallery() {
     <>
       <Block name="home-card" note="a sample home, in the day">
         <ul className="homes">
-          <HomeCard listing={home()} included mustSee={false} kmFromMustSee={null} outOfRange={false} onInclude={noop} onMustSee={noop} />
+          <HomeCard listing={home()} included mustSee={false} kmFromMustSee={null} outOfRange={false} onInclude={noop} onMustSee={noop} note="" noteSaved onNote={noop} />
         </ul>
       </Block>
       <Block name="home-card-long" note="a long address, a long price, three times, a must-see elsewhere">
         <ul className="homes">
-          <HomeCard listing={LONG} included mustSee={false} kmFromMustSee={3.4} outOfRange={false} onInclude={noop} onMustSee={noop} />
+          <HomeCard listing={LONG} included mustSee={false} kmFromMustSee={3.4} outOfRange={false} onInclude={noop} onMustSee={noop} note={LONG_NOTE} noteSaved onNote={noop} />
         </ul>
       </Block>
       <Block name="home-card-empty" note="added by hand: nothing known, suburb pin, must-see, removable">
         <ul className="homes">
-          <HomeCard listing={EMPTY} included mustSee kmFromMustSee={0} outOfRange={false} onInclude={noop} onMustSee={noop} onRemove={noop} />
+          <HomeCard listing={EMPTY} included mustSee kmFromMustSee={0} outOfRange={false} onInclude={noop} onMustSee={noop} onRemove={noop} note="" noteSaved onNote={noop} />
         </ul>
       </Block>
       <Block name="home-card-out" note="left out, and too far from the must-see">
         <ul className="homes">
-          <HomeCard listing={SECOND} included={false} mustSee={false} kmFromMustSee={1.2} outOfRange={false} onInclude={noop} onMustSee={noop} />
-          <HomeCard listing={LONG} included mustSee={false} kmFromMustSee={12.6} outOfRange onInclude={noop} onMustSee={noop} />
+          <HomeCard listing={SECOND} included={false} mustSee={false} kmFromMustSee={1.2} outOfRange={false} onInclude={noop} onMustSee={noop} note="Second bedroom small." noteSaved onNote={noop} />
+          <HomeCard listing={LONG} included mustSee={false} kmFromMustSee={12.6} outOfRange onInclude={noop} onMustSee={noop} note="" noteSaved onNote={noop} />
         </ul>
+      </Block>
+      <Block name="home-note-open" note="a note being written, and one the browser will not keep">
+        <HomeNote text={LONG_NOTE} saved onChange={noop} startOpen />
+        <HomeNote text="" saved={false} onChange={noop} startOpen />
+      </Block>
+      <Block name="theme-toggle" note="the light and dark switch">
+        <ThemeToggle />
       </Block>
       <Block name="pager" note="the second page of three">
         <Pager page={1} total={27} onPage={noop} />
@@ -140,7 +154,7 @@ export function Gallery() {
         <DaySettings settings={{ ...DEFAULT_SETTINGS, breakMinutes: 0 }} radiusKm={0} hasMustSee={false} onSettings={noop} onRadius={noop} />
       </Block>
       <Block name="day-plan" note="four stops, a wait, a break, two that did not fit">
-        <DayPlan day="2026-11-21" plan={PLAN} listings={LISTINGS} travelSource="estimate" breakAsked />
+        <DayPlan day="2026-11-21" plan={PLAN} listings={LISTINGS} travelSource="estimate" breakAsked notes={NOTES} notesSaved onNote={noop} />
       </Block>
       <Block name="day-plan-one" note="one stop, the break left out, road times">
         <DayPlan
@@ -149,10 +163,13 @@ export function Gallery() {
           listings={LISTINGS}
           travelSource="osrm"
           breakAsked
+          notes={{}}
+          notesSaved
+          onNote={noop}
         />
       </Block>
       <Block name="day-plan-none" note="nothing could be visited">
-        <DayPlan day="2026-11-21" plan={{ stops: [], skipped: [], travelMinutes: 0, breakFitted: true }} listings={LISTINGS} travelSource="estimate" breakAsked={false} />
+        <DayPlan day="2026-11-21" plan={{ stops: [], skipped: [], travelMinutes: 0, breakFitted: true }} listings={LISTINGS} travelSource="estimate" breakAsked={false} notes={{}} notesSaved onNote={noop} />
       </Block>
       <Block name="house-art" note="the four palettes the homes are drawn in">
         <div className="art-row">

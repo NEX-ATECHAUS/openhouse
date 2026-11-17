@@ -93,8 +93,10 @@
   --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235d6169' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+/* Dark mode. Chosen with the switch in the header (data-theme on the
+   page), or, until a choice is made, by the device. The same tokens
+   twice, because a media query and an attribute cannot share one rule. */
+:root[data-theme="dark"] {
     color-scheme: dark;
     --surface: #1b1c1f;
     --surface-soft: #232428;
@@ -122,6 +124,47 @@
     --focus-halo: #111214;
     --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.35);
     --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a9adb5' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    /* Dark mode gets a dark page, with a faint glow of the logo's
+       warm colour at the top, so the switch really makes it dark. */
+    --canvas: #121214;
+    --canvas-gradient: radial-gradient(1100px 560px at 85% -10%, rgba(242, 154, 124, 0.16), transparent 65%), #121214;
+    --on-canvas: #f3f3f5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #1b1c1f;
+    --surface-soft: #232428;
+    --border: #2e3036;
+    --border-input: #7c818b;
+    --text: #f3f3f5;
+    --muted: #a9adb5;
+    --placeholder: #9a9ea6;
+    --primary: #f3f3f5;
+    --on-primary: #17181a;
+    --primary-hover: #ffffff;
+    --soft: #2a2b30;
+    --on-soft: #f3f3f5;
+    --soft-hover: #34363c;
+    --warm-glow: rgba(242, 154, 124, 0.18);
+    --pill: #2a2b30;
+    --pill-ink: #d9dbe0;
+    --amber-soft: #3e2419;
+    --amber-ink: #ffbb9c;
+    --green-soft: #17301f;
+    --green-ink: #9ad9ae;
+    --red-soft: #3a1c1a;
+    --red-ink: #ffaaa3;
+    --focus-ring: #f3f3f5;
+    --focus-halo: #111214;
+    --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.35);
+    --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a9adb5' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    /* Dark mode gets a dark page, with a faint glow of the logo's
+       warm colour at the top, so the switch really makes it dark. */
+    --canvas: #121214;
+    --canvas-gradient: radial-gradient(1100px 560px at 85% -10%, rgba(242, 154, 124, 0.16), transparent 65%), #121214;
+    --on-canvas: #f3f3f5;
   }
 }
 
@@ -253,6 +296,7 @@ select {
   padding: 20px 20px 0;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
 }
 
@@ -674,6 +718,34 @@ select.input {
   fill: currentColor;
 }
 
+/* ---------- Notes ---------- */
+
+/* A note on a home: its words in a soft box, kept as typed (line
+   breaks included), with the button to change it underneath. */
+.note > * + * {
+  margin-top: 8px;
+}
+
+.note-text {
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: var(--amber-soft);
+  color: var(--amber-ink);
+  font-size: var(--text-sm);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* The note box grows with the words; a field is otherwise one line. */
+.input.note-input {
+  display: block;
+  height: auto;
+  min-height: 104px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  resize: vertical;
+}
+
 /* ---------- Pills ---------- */
 
 .pill {
@@ -793,7 +865,8 @@ select.input {
   grid-template-areas:
     "thumb title"
     "details details"
-    "controls controls";
+    "controls controls"
+    "note note";
   gap: 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -824,6 +897,11 @@ select.input {
   min-width: 0;
 }
 
+.home-note {
+  grid-area: note;
+  min-width: 0;
+}
+
 .home-controls {
   grid-area: controls;
   display: flex;
@@ -839,8 +917,9 @@ select.input {
     grid-template-areas:
       "thumb title"
       "thumb details"
-      "thumb controls";
-    grid-template-rows: auto auto 1fr;
+      "thumb controls"
+      ". note";
+    grid-template-rows: auto auto 1fr auto;
     gap: 10px 16px;
     padding: 16px;
   }

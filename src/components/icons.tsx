@@ -96,3 +96,19 @@ export const IconCheck = (p: Props) => (
     <path d="m5 12.5 4.5 4.5L19 7.5" />
   </Svg>
 );
+export const IconMoon = (p: Props) => (
+  <Svg {...p}>
+    <path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z" />
+  </Svg>
+);
+export const IconSun = (p: Props) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+  </Svg>
+);
+export const IconPencil = (p: Props) => (
+  <Svg {...p}>
+    <path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4" />
+  </Svg>
+);

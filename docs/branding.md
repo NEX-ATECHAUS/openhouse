@@ -14,7 +14,7 @@ takes the feel, not the screens: its own layout, its own drawings.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `--canvas-gradient` | #f9cf8f to #f29a7c | same | The page: the logo tile's own gradient, the same in both themes. Text straight on it uses `--on-canvas` (#2b1710) |
+| `--canvas-gradient` | #f9cf8f to #f29a7c | #121214, warm glow | The page: the logo tile's own gradient, light mode. Text straight on it uses `--on-canvas` (#2b1710 light, #f3f3f5 dark) |
 | `--surface` | #ffffff | #1b1c1f | Cards, homes, stops |
 | `--surface-soft` | #f5f6f8 | #232428 | Fields, the day's totals |
 | `--text` | #17181a | #f3f3f5 | Ink |
@@ -24,9 +24,11 @@ takes the feel, not the screens: its own layout, its own drawings.
 | warm gradient | #f9cf8f to #f29a7c | same | The one action a screen is for, and the stop numbers. Ink #2b1710 on it |
 | soft fills | grey, amber, green, red | | Pills and notices, each with its own ink at 4.5:1 or better |
 
-Warm is action and must-see. Red is for something that failed or is
-out of range, never decoration. The theme follows the device; there is
-no switch.
+Warm is action, must-see and notes. Red is for something that failed
+or is out of range, never decoration. The theme follows the device
+until the switch in the header is used. Dark mode has a dark page
+(#121214) with a faint warm glow at the top; light mode wears the logo
+gradient.
 
 ## The pictures
 

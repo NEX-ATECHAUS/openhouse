@@ -5,6 +5,8 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/albert-sans";
 import "@fontsource/fira-mono/400.css";
 import "./globals.css";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { THEME_SCRIPT } from "@/lib/theme";
 
 export const metadata: Metadata = {
   title: "Open House",
@@ -18,12 +20,21 @@ export const viewport: Viewport = {
   themeColor: "#f9cf8f",
 };
 
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // Reading the request makes every page render per request, which is
   // what lets Next put the proxy's nonce on its own scripts.
-  await headers();
+  // The proxy's nonce, so the theme script below is allowed to run.
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
   return (
-    <html lang="en-AU">
+    // The theme script sets data-theme before React loads, which React
+    // would otherwise report as a mismatch.
+    <html lang="en-AU" suppressHydrationWarning>
+      <head>
+        {/* A fixed script, no user input: puts a theme chosen with the
+            switch on the page before it paints, so it never flashes. */}
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>
         <header className="header">
           <div className="header-inner">
@@ -40,6 +51,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </svg>
               <span>Open House</span>
             </Link>
+            <ThemeToggle />
           </div>
         </header>
         <main className="content">{children}</main>
