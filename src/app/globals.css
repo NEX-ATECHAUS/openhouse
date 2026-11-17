@@ -243,7 +243,8 @@ a {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
   color: inherit;
 }
@@ -626,8 +627,10 @@ select.input {
 
 /* A tick box with its words, outside a chip. The whole label is the
    target. */
+/* A full-width row, so long words beside the box wrap inside the card
+   rather than run past it. */
 .check {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 10px;
   min-height: 36px;
@@ -736,14 +739,39 @@ select.input {
   overflow-wrap: anywhere;
 }
 
-/* The note box grows with the words; a field is otherwise one line. */
-.input.note-input {
+/* A field for more than a line (a note, pasted text) grows with the
+   words; a field is otherwise one line. */
+.input.area {
   display: block;
   height: auto;
   min-height: 104px;
   padding: 12px 16px;
   border-radius: var(--radius-md);
   resize: vertical;
+}
+
+/* ---------- Pasted homes ---------- */
+
+.paste-list > * + * {
+  margin-top: 10px;
+}
+
+/* One home found in pasted text, before it is added. */
+.paste-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  padding: 12px 14px;
+  min-width: 0;
+}
+
+.paste-item > * + * {
+  margin-top: 6px;
+}
+
+/* A tick box's words wrap inside its row rather than push it wider. */
+.check > span {
+  min-width: 0;
 }
 
 /* ---------- Pills ---------- */
@@ -765,6 +793,13 @@ select.input {
 .pill .icon {
   width: 14px;
   height: 14px;
+}
+
+/* A pill carrying a sentence rather than a figure wraps, inside the
+   width it is given, instead of running off a phone. */
+.pill.wrap {
+  white-space: normal;
+  max-width: 100%;
 }
 
 .pill.amber {

@@ -50,7 +50,7 @@ export function HomeNote({
         </label>
         <textarea
           id={id}
-          className="input note-input"
+          className="input area"
           value={text}
           maxLength={NOTE_MAX}
           ref={box}

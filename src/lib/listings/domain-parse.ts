@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { InspectionWindow, Listing } from "../types.ts";
 import { priceFromText } from "../price.ts";
-import { splitLocalDateTime } from "../time.ts";
+import { DEFAULT_OPEN_MINUTES, splitLocalDateTime } from "../time.ts";
 
 // Turning Domain's search answer into our Listing. Kept apart from the
 // network call so it can be tested against saved answers.
@@ -54,8 +54,6 @@ const resultSchema = z.object({
   listings: z.array(listingSchema).optional().nullable(),
 });
 
-// When the agent gives no closing time, an open home runs half an hour.
-const DEFAULT_OPEN_MINUTES = 30;
 
 function clean(text: string, max: number): string {
   return text.replace(/\s+/g, " ").trim().slice(0, max);

@@ -2,6 +2,28 @@
 
 Dated sections, newest first, in plain words, with who asked.
 
+## 17 November 2026: Paste homes from a listing site
+
+Asked for by the owner, while Domain's approval is pending, in place of
+a scraper.
+
+- **Paste homes from a listing site**, in Step 2. Copy a listing, or a
+  page of inspection times, from Domain, realestate.com.au or Homely in
+  your own browser and paste it in. The app reads each home's address,
+  price, bedrooms, bathrooms, car spaces, type and inspection times out
+  of the text, on this device; nothing is fetched from those sites.
+- **A preview to tick before anything is added.** Each home shows what
+  was read, with its time on the day chosen. Homes open only on another
+  day, with no time found, with no suburb, or already in the list are
+  marked and cannot be ticked; homes over budget or with fewer bedrooms
+  are marked and start unticked.
+- **Added homes join the day** as candidates (not must-sees), labelled
+  "Pasted", kept through new searches and reloads, with notes like any
+  other home. Each is placed on the map one a second, as the map
+  service asks; the map lookup now allows 60 a minute to match.
+- **Fixed on the way:** text boxes used the browser's typewriter font,
+  and a tick box's row could cut a long address short.
+
 ## 17 November 2026: Dark mode switch and notes on homes
 
 Asked for by the owner.

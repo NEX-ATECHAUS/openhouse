@@ -1,5 +1,9 @@
 // Wall-clock helpers. No timezone maths on purpose: see src/lib/types.ts.
 
+// How long an open home runs when the listing gives only its start.
+// Used for Domain's answer and for pasted text alike, so the two agree.
+export const DEFAULT_OPEN_MINUTES = 30;
+
 export function isDay(value: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const d = new Date(`${value}T00:00:00Z`);

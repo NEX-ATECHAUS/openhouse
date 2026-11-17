@@ -15,6 +15,7 @@ const SOURCE_LABEL: Record<Listing["source"], string> = {
   domain: "Domain",
   sample: "Sample",
   manual: "Added by you",
+  pasted: "Pasted",
 };
 
 export function priceLabel(listing: Listing): string {

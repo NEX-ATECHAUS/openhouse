@@ -5,6 +5,7 @@ import { DayPlan } from "@/components/day-plan";
 import { DaySettings } from "@/components/day-settings";
 import { HomeCard } from "@/components/home-card";
 import { HomeNote } from "@/components/home-note";
+import { PasteHomes } from "@/components/paste-homes";
 import { HouseArt } from "@/components/house-art";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Pager } from "@/components/pager";
@@ -72,6 +73,23 @@ const LONG_NOTE =
 
 const NOTES = { "v-1": { text: "Kitchen redone. Ask about the body corporate.", at: 1 }, "v-long": { text: LONG_NOTE, at: 1 } };
 
+// Made-up homes, pasted as a listing site lays them out.
+const PASTED = `Saturday 21 November
+10:00am - 10:30am
+2/7 Ironbark Rise, Croydon VIC 3136
+$560,000 - $610,000
+2 beds 1 bath 1 car
+11:00am - 11:30am
+Apartment 1204, The Stringybark Residences, 60 Peppermint Grove Boulevard East, Ringwood
+1/26 Heathbell Road, Heathmont
+$690,000 - $720,000
+2 beds 1 bath
+Sunday 22 November
+1:00pm - 1:30pm
+8 Correa Crescent, Croydon
+8 Banksia Mews
+$500,000`;
+
 const PLAN: Plan = {
   stops: [
     { id: "v-1", travelMinutes: 0, arrive: 600, start: 600, leave: 615, open: 600, close: 630, breakBefore: null },
@@ -137,6 +155,18 @@ export function Gallery() {
       <Block name="home-note-open" note="a note being written, and one the browser will not keep">
         <HomeNote text={LONG_NOTE} saved onChange={noop} startOpen />
         <HomeNote text="" saved={false} onChange={noop} startOpen />
+      </Block>
+      <Block name="paste-homes" note="text read: one to add, one over budget, one on another day, one with no suburb">
+        <PasteHomes
+          day="2026-11-21"
+          today="2026-11-17"
+          state="VIC"
+          minBedrooms={2}
+          maxPrice={625000}
+          existing={new Set()}
+          onAdd={noop}
+          initialText={PASTED}
+        />
       </Block>
       <Block name="theme-toggle" note="the light and dark switch">
         <ThemeToggle />

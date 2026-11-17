@@ -4,7 +4,9 @@
 // converted between timezones, because an open home at 11:00 is at 11:00
 // wherever the person planning happens to be.
 
-export type ListingSource = "domain" | "sample" | "manual";
+// manual: added with the form, one at a time. pasted: read from text
+// copied off a listing site and pasted in.
+export type ListingSource = "domain" | "sample" | "manual" | "pasted";
 
 export type InspectionWindow = {
   date: string; // YYYY-MM-DD

@@ -60,6 +60,12 @@ an input, an upload, or a secret.
   only file that calls Domain, `domain-parse.ts` reads its answer,
   `filter.ts` is the one rule for what is in or out, `sample.ts` is the
   demo data). Why Domain and nothing else: docs/data-sources.md.
+- Homes pasted in: the owner copies a listing or an inspection times
+  page from any site in their own browser and pastes it; the text is
+  read on the device by `src/lib/paste-parse.ts` (pure, tested) and
+  shown as a preview to tick (`src/components/paste-homes.tsx`). Only
+  each ticked home's street and suburb reach the server, to be placed
+  on the map, one a second. Nothing is fetched from a listing site.
 - Homes added by hand: placed on the map by `src/lib/geocode.ts`
   (Nominatim, with the suburb centre from `src/lib/suburbs.ts` as the
   fallback, marked approximate).

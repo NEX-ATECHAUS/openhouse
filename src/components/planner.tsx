@@ -5,6 +5,7 @@ import { AddHome } from "@/components/add-home";
 import { DayPlan } from "@/components/day-plan";
 import { DaySettings } from "@/components/day-settings";
 import { HomeCard } from "@/components/home-card";
+import { PasteHomes } from "@/components/paste-homes";
 import { PAGE_SIZE, Pager } from "@/components/pager";
 import { SearchForm, type SearchValues } from "@/components/search-form";
 import { NOTES_KEY, readNotes, withNote, type Notes } from "@/lib/notes";
@@ -91,7 +92,8 @@ export function Planner({ defaultDate, today, demo }: { defaultDate: string; tod
     if (typeof stored.radiusKm === "number") setRadiusKm(stored.radiusKm);
     if (Array.isArray(stored.manual)) {
       setManual(stored.manual);
-      setMustSee(new Set(stored.manual.map((home) => home.id)));
+      // A home added by hand is a must-see; a pasted one is a candidate.
+      setMustSee(new Set(stored.manual.filter((home) => home.source === "manual").map((home) => home.id)));
     }
     try {
       setNotes(readNotes(window.localStorage.getItem(NOTES_KEY)));
@@ -232,6 +234,10 @@ export function Planner({ defaultDate, today, demo }: { defaultDate: string; tod
     return next;
   };
 
+  const mineIds = useMemo(() => new Set(manual.map((home) => home.id)), [manual]);
+  const budget = Number(search.maxPrice.replace(/[$,\s]/g, ""));
+  const pastedBudget = Number.isFinite(budget) && budget > 0 ? budget : null;
+
   const shown = homes.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
   const byId = useMemo(() => new Map(homes.map((home) => [home.id, home])), [homes]);
 
@@ -292,7 +298,7 @@ export function Planner({ defaultDate, today, demo }: { defaultDate: string; tod
                         changed();
                       }}
                       onRemove={
-                        home.source === "manual"
+                        home.source === "manual" || home.source === "pasted"
                           ? () => {
                               setManual(manual.filter((mine) => mine.id !== home.id));
                               setMustSee(toggle(mustSee, home.id, false));
@@ -315,6 +321,21 @@ export function Planner({ defaultDate, today, demo }: { defaultDate: string; tod
               onAdd={(home) => {
                 setManual([...manual, home]);
                 setMustSee(toggle(mustSee, home.id, true));
+                setPage(0);
+                changed();
+              }}
+            />
+            <PasteHomes
+              day={day}
+              today={today}
+              state={search.state}
+              minBedrooms={search.minBedrooms}
+              maxPrice={pastedBudget}
+              existing={mineIds}
+              onAdd={(pasted) => {
+                const fresh = new Map(pasted.map((home) => [home.id, home]));
+                setManual([...manual.filter((mine) => !fresh.has(mine.id)), ...pasted]);
+                setLeft(new Set([...left].filter((id) => !fresh.has(id))));
                 setPage(0);
                 changed();
               }}

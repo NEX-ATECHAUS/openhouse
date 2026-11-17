@@ -17,9 +17,20 @@ up for. It is the one source the app reads.
 | Other portals (view.com.au, allhomes, property.com.au) | None found | No | Allhomes is owned by Domain |
 | Scraper services (Apify, RapidAPI) | Unofficial | No | They break when a site changes and carry the terms-of-use risk |
 
-A home found on a site the app does not read is added by hand, with
-"Add a home yourself". That is also how the home you are already going
-to gets into the day.
+A home found on a site the app does not read gets in two ways, neither
+of which touches that site:
+
+- **Paste homes from a listing site.** Open a listing, or the page of
+  inspection times, in your own browser, select the page, copy it and
+  paste it in. The app reads the addresses, prices, rooms, type and
+  inspection days and times out of the text on the device
+  (`src/lib/paste-parse.ts`), shows them as a preview to tick, and adds
+  the ticked ones. It works out from the text whether the site puts the
+  address or the time first. An auction time is never read as an open
+  home; a time without am or pm before 8 is read as pm; a start time
+  alone runs half an hour, as with Domain. Up to 25 homes a paste.
+- **Add a home yourself**, for one home: the address and the times.
+  That is also how the home you are already going to gets into the day.
 
 ### How the app calls Domain
 
