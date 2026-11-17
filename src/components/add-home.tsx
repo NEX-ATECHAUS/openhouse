@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { IconPlus } from "@/components/icons";
 import { STATES } from "@/lib/schemas";
 import { parseClock } from "@/lib/time";
 import type { Listing } from "@/lib/types";
@@ -75,7 +76,10 @@ export function AddHome({
 
   return (
     <details className="disclosure">
-      <summary>Add a home yourself</summary>
+      <summary>
+        <IconPlus />
+        Add a home yourself
+      </summary>
       <p className="small muted">
         For the home you are already going to, or one you found on another site. It is added as a must-see for the day chosen above.
       </p>

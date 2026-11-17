@@ -2,6 +2,31 @@
 
 Dated sections, newest first, in plain words, with who asked.
 
+## 17 November 2026: New look
+
+Asked for by the owner, from a reference design: a softer, lighter
+look with illustrated houses.
+
+- **The look.** A pale grey page, big rounded white cards, pill-shaped
+  fields, buttons and chips, and one warm peach to coral accent for the
+  main action. Both themes.
+- **The top of the page.** The heading, an illustrated street and the
+  search together in one card. The suburb search is a single pill with
+  a pin; bedrooms are tap chips (Any, 1+ to 4+); the two options are
+  chips that show a tick when on.
+- **Homes.** Each has a small illustrated picture (one of four
+  palettes, always the same for a home), the price in large type, and
+  bedrooms, bathrooms, car spaces and type with icons. Must-see is a
+  heart that fills. On a phone the details run full width under the
+  picture.
+- **The day.** Numbered stops in warm circles; drives, waits and the
+  break as pills with icons. The three totals now sit in one row on a
+  phone, with the short form ("4h 52m") so nothing breaks across lines.
+- **Housekeeping.** Two fonts no longer used were removed. Next.js
+  moved from 16.4.2 to the patch release 16.4.6 for a moderate advisory
+  (information disclosure through `use cache` with `unstable_cache()`;
+  the app uses neither, so it was not exposed).
+
 ## 16 November 2026: First build
 
 Asked for by the owner: find the open homes near the one being viewed

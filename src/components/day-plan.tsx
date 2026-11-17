@@ -1,9 +1,10 @@
 "use client";
 
-import type { Listing, Plan, TravelSource } from "@/lib/types";
+import { HomeSpecs, priceLabel } from "@/components/home-card";
+import { IconCalendar, IconCar, IconClock, IconCoffee, IconRoute } from "@/components/icons";
 import { mapsLinks, planToIcs } from "@/lib/export";
-import { formatClock, formatDay, formatDuration } from "@/lib/time";
-import { homeFacts } from "@/components/home-card";
+import { formatClock, formatDay, formatDuration, formatDurationShort } from "@/lib/time";
+import type { Listing, Plan, TravelSource } from "@/lib/types";
 
 // The day, in the order it happens: each stop with when to walk in and
 // when to leave, and between stops the drive, any wait and the break.
@@ -60,11 +61,15 @@ export function DayPlan({
         </div>
         <div className="total">
           <p className="tagline">Driving</p>
-          <p className="total-figure">{formatDuration(plan.travelMinutes)}</p>
+          <p className="total-figure" title={formatDuration(plan.travelMinutes)}>
+            {formatDurationShort(plan.travelMinutes)}
+          </p>
         </div>
         <div className="total">
           <p className="tagline">Out for</p>
-          <p className="total-figure">{formatDuration(last.leave - first.start)}</p>
+          <p className="total-figure" title={formatDuration(last.leave - first.start)}>
+            {formatDurationShort(last.leave - first.start)}
+          </p>
         </div>
       </div>
       {breakAsked && !plan.breakFitted ? (
@@ -75,16 +80,25 @@ export function DayPlan({
           const listing = listings.get(stop.id);
           const wait = stop.start - stop.arrive;
           return (
-            <li key={stop.id} className="day">
+            <li key={stop.id} className="day-item">
               {index === 0 ? null : (
                 <div className="between">
                   {stop.breakBefore === null ? null : (
                     <span className="pill amber">
+                      <IconCoffee />
                       Break {formatClock(stop.breakBefore.start)} to {formatClock(stop.breakBefore.end)}
                     </span>
                   )}
-                  <span className="pill">{formatDuration(stop.travelMinutes)} drive</span>
-                  {wait > 0 ? <span className="pill">{formatDuration(wait)} to spare</span> : null}
+                  <span className="pill">
+                    <IconCar />
+                    {formatDuration(stop.travelMinutes)} drive
+                  </span>
+                  {wait > 0 ? (
+                    <span className="pill">
+                      <IconClock />
+                      {formatDuration(wait)} to spare
+                    </span>
+                  ) : null}
                 </div>
               )}
               <div className="stop">
@@ -95,11 +109,10 @@ export function DayPlan({
                   </p>
                   <p className="home-address">{listing?.address ?? "A home no longer in the list"}</p>
                   {listing === undefined ? null : (
-                    <p className="home-facts">
-                      {listing.priceText === "" ? "Price not stated" : listing.priceText}
-                      {". "}
-                      {homeFacts(listing)}
-                    </p>
+                    <>
+                      <p className="home-facts">{priceLabel(listing)}</p>
+                      <HomeSpecs listing={listing} />
+                    </>
                   )}
                   <p className="small muted">
                     Open {formatClock(stop.open)} to {formatClock(stop.close)}
@@ -113,10 +126,12 @@ export function DayPlan({
       <div className="actions">
         {links.map((link, index) => (
           <a key={link} className="button accent" href={link} target="_blank" rel="noopener noreferrer">
+            <IconRoute />
             {links.length === 1 ? "Open the route in Google Maps" : `Google Maps, part ${index + 1}`}
           </a>
         ))}
         <button type="button" className="button ghost" onClick={() => downloadCalendar(day, plan, listings)}>
+          <IconCalendar />
           Add to my calendar
         </button>
       </div>

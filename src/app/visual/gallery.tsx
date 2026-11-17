@@ -4,6 +4,7 @@ import { AddHome } from "@/components/add-home";
 import { DayPlan } from "@/components/day-plan";
 import { DaySettings } from "@/components/day-settings";
 import { HomeCard } from "@/components/home-card";
+import { HouseArt } from "@/components/house-art";
 import { Pager } from "@/components/pager";
 import { DEFAULT_SETTINGS, Planner } from "@/components/planner";
 import { SearchForm } from "@/components/search-form";
@@ -153,6 +154,15 @@ export function Gallery() {
       <Block name="day-plan-none" note="nothing could be visited">
         <DayPlan day="2026-11-21" plan={{ stops: [], skipped: [], travelMinutes: 0, breakFitted: true }} listings={LISTINGS} travelSource="estimate" breakAsked={false} />
       </Block>
+      <Block name="house-art" note="the four palettes the homes are drawn in">
+        <div className="art-row">
+          {(["warm", "sky", "rose", "mint"] as const).map((variant) => (
+            <div className="home-thumb" key={variant}>
+              <HouseArt variant={variant} id={`v-${variant}`} />
+            </div>
+          ))}
+        </div>
+      </Block>
       <Block name="notices" note="the three tones and the empty state">
         <p className="notice">2 homes did not fit.</p>
         <p className="notice amber">Sample data. These homes are made up so the planner can be tried.</p>
@@ -167,13 +177,7 @@ export function Gallery() {
           onSubmit={noop}
         />
       </Block>
-      <Block name="page-home" note="the whole page before a search" stack>
-        <div className="intro">
-          <h1>Plan a day of open homes</h1>
-          <p className="muted">
-            Search once, pick the homes worth seeing, and get them in order with the drive between each and a break in the middle.
-          </p>
-        </div>
+      <Block name="page-home" note="the whole page before a search, sample banner first" stack>
         <Planner defaultDate="2026-11-21" today="2026-11-16" demo />
       </Block>
     </>
