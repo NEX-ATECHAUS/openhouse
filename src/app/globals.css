@@ -80,6 +80,9 @@
   --rhythm: 20px;
   /* The smallest a control may be on a touch screen. */
   --touch: 44px;
+  /* Every form field, so a row of them lines up. */
+  --field-height: 46px;
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235d6169' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
 @media (prefers-color-scheme: dark) {
@@ -112,6 +115,7 @@
     --focus-ring: #f3f3f5;
     --focus-halo: #111214;
     --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.35);
+    --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a9adb5' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   }
 }
 
@@ -385,10 +389,12 @@ select {
 
 /* ---------- Forms ---------- */
 
+/* Fields share a row while each has room for its longest choice and
+   the dropdown chevron; past that they wrap to the next row. */
 .fields {
   display: grid;
   gap: 14px;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
 .field {
@@ -420,13 +426,37 @@ legend.field-label {
   padding-left: 18px;
 }
 
+/* Every field is the same pill at the same height: text, number,
+   date, time and dropdown alike. The browser's own drawing is switched
+   off, because Safari otherwise draws its dropdowns square and short
+   and its date and time fields tall, so no two fields would match. */
 .input {
   width: 100%;
-  min-height: 46px;
-  padding: 10px 18px;
-  background: var(--surface-soft);
+  height: var(--field-height);
+  padding: 0 18px;
+  background-color: var(--surface-soft);
   border: 1px solid var(--border-input);
   border-radius: var(--radius-pill);
+  line-height: 1.4;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* A dropdown carries its own chevron, in the muted ink of the theme. */
+select.input {
+  padding-right: 44px;
+  background-image: var(--chevron);
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  background-size: 14px;
+  cursor: pointer;
+}
+
+/* Safari centres the value of a date or time field; read it from the
+   left like every other field. */
+.input::-webkit-date-and-time-value {
+  text-align: left;
+  margin: 0;
 }
 
 .input:disabled {

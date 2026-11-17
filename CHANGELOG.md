@@ -2,6 +2,20 @@
 
 Dated sections, newest first, in plain words, with who asked.
 
+## 17 November 2026: Fields match
+
+Asked for by the owner, from a screenshot in Safari: the dropdowns did
+not match the other fields.
+
+- **Every field is the same pill.** Text, date, time and dropdown fields
+  share one height (46px) and the round ends. Safari drew its dropdowns
+  square and short and its time field tall; the browser's own drawing
+  is now switched off and the dropdowns carry their own chevron, in the
+  muted ink of each theme.
+- **Room for the longest choice.** Fields share a row only while each
+  is at least 180px wide, so "5 min a drive" is never cut short; Plan
+  the day now reads as two neat columns on a desk.
+
 ## 17 November 2026: New look
 
 Asked for by the owner, from a reference design: a softer, lighter
