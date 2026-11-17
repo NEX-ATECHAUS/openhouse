@@ -22,6 +22,21 @@ const TIMEOUT_MS = 12_000;
 
 let token: { value: string; expiresAt: number } | null = null;
 
+// Domain's own words for a refusal, for the log: the reason it gives
+// (a missing package, a plan limit) is what says what to fix. Only the
+// message field, cut short, with anything but plain text removed. The
+// request carries no personal data, so neither can its refusal.
+async function domainReason(answer: Response): Promise<string> {
+  try {
+    const body = (await answer.json()) as Record<string, unknown>;
+    const said = [body.message, body.Message, body.error_description, body.error, body.title]
+      .find((value) => typeof value === "string" && value.trim() !== "");
+    return typeof said === "string" ? said.replace(/[^\w .,:;'()/-]/g, "").slice(0, 160) : "";
+  } catch {
+    return "";
+  }
+}
+
 async function authHeaders(env: DomainEnv): Promise<Record<string, string> | null> {
   if (env.kind === "api-key") {
     return { "X-Api-Key": env.apiKey };
@@ -41,7 +56,7 @@ async function authHeaders(env: DomainEnv): Promise<Record<string, string> | nul
       cache: "no-store",
     });
     if (!answer.ok) {
-      logger.authFailure("domain-token", { status: answer.status });
+      logger.authFailure("domain-token", { status: answer.status, reason: await domainReason(answer) });
       return null;
     }
     const body = (await answer.json()) as { access_token?: unknown; expires_in?: unknown };
@@ -89,14 +104,14 @@ export async function searchDomain(
         cache: "no-store",
       });
       if (answer.status === 401 || answer.status === 403) {
-        logger.authFailure("domain-search", { status: answer.status });
-        return { data: null, error: "Domain refused the request. Check the Domain keys and that the project has the Agents and Listings package." };
+        logger.authFailure("domain-search", { status: answer.status, reason: await domainReason(answer) });
+        return { data: null, error: "Domain refused the search. The sign-in worked, so the project most likely does not have listings access yet: check API Access in the Domain developer portal shows Agents and Listings as approved." };
       }
       if (answer.status === 429) {
         return { data: null, error: "Domain's daily limit has been reached. It resets overnight; try again tomorrow." };
       }
       if (!answer.ok) {
-        logger.error("domain_search_failed", { status: answer.status, page });
+        logger.error("domain_search_failed", { status: answer.status, page, reason: await domainReason(answer) });
         return { data: null, error: "Domain did not answer the search. Try again in a minute." };
       }
       const body: unknown = await answer.json();

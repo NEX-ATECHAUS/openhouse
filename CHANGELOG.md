@@ -2,6 +2,17 @@
 
 Dated sections, newest first, in plain words, with who asked.
 
+## 17 November 2026: Clearer Domain refusals
+
+Asked for by the owner, after the first live search returned 502.
+
+- The live search reached Domain and signed in, but Domain answered 403
+  to the search itself. The screen now says that the sign-in worked and
+  that listings access is the likely gap, instead of pointing at the keys.
+- Domain's own reason for a refusal (its message field, cut short) is
+  now written to the log with the status, so the next one says exactly
+  what to fix.
+
 ## 17 November 2026: The first design's type, back
 
 Asked for by the owner: the fonts of the first design, with everything
