@@ -14,7 +14,7 @@ takes the feel, not the screens: its own layout, its own drawings.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `--canvas` | #eef0f3 | #111214 | The page, with a faint warm glow at the top |
+| `--canvas-gradient` | #f9cf8f to #f29a7c | same | The page: the logo tile's own gradient, the same in both themes. Text straight on it uses `--on-canvas` (#2b1710) |
 | `--surface` | #ffffff | #1b1c1f | Cards, homes, stops |
 | `--surface-soft` | #f5f6f8 | #232428 | Fields, the day's totals |
 | `--text` | #17181a | #f3f3f5 | Ink |
@@ -63,7 +63,9 @@ The type of the first design, kept by the owner's choice on
 
 ## The mark
 
-A house in dark ink on a warm gradient rounded square:
+A house in dark ink on a warm gradient rounded square. The page wears
+the same gradient, so the tile carries a thin light ring and a soft
+shadow to stand off it:
 `src/app/icon.svg`, repeated in the header in `src/app/layout.tsx`.
 
 ## Voice

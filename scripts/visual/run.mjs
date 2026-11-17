@@ -172,8 +172,11 @@ function inspect({ slack, minTap, minGap, checkTap }) {
     return (hi + 0.05) / (lo + 0.05);
   };
   const canvas = parseColor(getComputedStyle(document.body).backgroundColor);
+  // The stage itself is asked too: a block staged on a card reads on the
+  // card, and stopping one short judged card text against the page.
   const onCanvas = (el, stage) => {
-    for (let at = el; at !== null && at !== stage; at = at.parentElement) {
+    const end = stage.parentElement;
+    for (let at = el; at !== null && at !== end; at = at.parentElement) {
       const style = getComputedStyle(at);
       if (style.backgroundImage !== "none") return false;
       const fill = parseColor(style.backgroundColor);

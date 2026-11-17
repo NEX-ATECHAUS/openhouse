@@ -12,9 +12,14 @@
   color-scheme: light;
 
   /* Surfaces */
-  --canvas: #eef0f3;
-  /* A faint warm glow at the top of the page, behind the hero. */
-  --canvas-glow: rgba(249, 207, 143, 0.28);
+  /* The page: the logo tile's own peach to coral gradient, the same in
+     both themes, as the logo is. --canvas is its middle colour, used
+     where one flat colour is needed (the browser bar, overscroll). */
+  --canvas: #f6b585;
+  --canvas-gradient: linear-gradient(160deg, #f9cf8f 0%, #f29a7c 100%);
+  /* Text straight on the page: the logo's dark ink, 8:1 or better on
+     either end of the gradient. */
+  --on-canvas: #2b1710;
   --surface: #ffffff;
   --surface-soft: #f5f6f8;
   --border: #e3e5e9;
@@ -23,7 +28,7 @@
 
   /* Ink */
   --text: #17181a;
-  --muted: #5d6169; /* 6.2 on white, 5.4 on the canvas */
+  --muted: #5d6169; /* 6.2 on white; used on cards, not on the page */
   --placeholder: #686c74;
 
   /* The everyday button: near-black ink, a pill. */
@@ -91,8 +96,6 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --canvas: #111214;
-    --canvas-glow: rgba(242, 154, 124, 0.1);
     --surface: #1b1c1f;
     --surface-soft: #232428;
     --border: #2e3036;
@@ -132,11 +135,14 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* What shows past the edge when a phone overscrolls. */
+  background-color: var(--canvas);
 }
 
 body {
   margin: 0;
-  background: radial-gradient(1100px 520px at 85% -10%, var(--canvas-glow), transparent 65%) no-repeat, var(--canvas);
+  min-height: 100vh;
+  background: var(--canvas-gradient);
   background-color: var(--canvas);
   color: var(--text);
   font-family: var(--font-sans);
@@ -259,12 +265,17 @@ select {
   font-weight: 500;
   letter-spacing: -0.01em;
   text-decoration: none;
+  color: var(--on-canvas);
 }
 
+/* The logo tile is the page's own colour, so a light ring and a soft
+   shadow keep it reading as a tile. */
 .brand-mark {
   width: 36px;
   height: 36px;
   flex: none;
+  border-radius: 12px;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.65), 0 6px 14px rgba(43, 23, 16, 0.18);
 }
 
 /* The page. Blocks directly on it are spaced by this rule and carry no
@@ -1013,6 +1024,11 @@ select.input {
 
 .visual-block > * + * {
   margin-top: 10px;
+}
+
+/* The gallery's own label for each block sits on the page. */
+.visual-block > .tagline {
+  color: var(--on-canvas);
 }
 
 .visual-stage {

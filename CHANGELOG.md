@@ -2,6 +2,20 @@
 
 Dated sections, newest first, in plain words, with who asked.
 
+## 17 November 2026: The page in the logo's colour
+
+Asked for by the owner: the page background the same as the logo
+tile's.
+
+- The page is now the logo's peach to coral gradient, in both themes.
+  Cards keep their own colours (white, or dark in dark mode).
+- Text straight on the page, the "Open House" name, uses the logo's
+  dark ink. The logo tile gained a thin light ring and a soft shadow so
+  it does not disappear into a page of its own colour.
+- The visual harness judged text on a staged card against the page,
+  never against the card; with a light page that raised 21 false
+  faults. It now checks the card too.
+
 ## 17 November 2026: Clearer Domain refusals
 
 Asked for by the owner, after the first live search returned 502.
